@@ -25,12 +25,12 @@
 
 ## 在线体验
 
-本项目通过 GitHub Pages 免费部署：`https://<你的用户名>.github.io/electronics-calculator/`
+本项目通过 GitHub Pages 免费部署，在线体验地址：**https://3392542262.github.io/TDF/**
 
 ## 本地开发
 
 ```bash
-git clone https://github.com/<你的用户名>/electronics-calculator.git
+git clone https://github.com/3392542262/TDF.git
 cd electronics-calculator
 # 直接用浏览器打开 index.html 即可
 ```
