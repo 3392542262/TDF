@@ -315,4 +315,131 @@ function updateOhm() {
   $(id).addEventListener('input', updateOhm);
 });
 
+// ============================================
+// 5. 分压计算器
+// ============================================
+
+function updateDivider() {
+  const vin = parseFloat($('div-vin').value);
+  const r1 = parseFloat($('div-r1').value);
+  const r2 = parseFloat($('div-r2').value);
+  const out = $('div-result');
+  const extra = $('div-extra');
+  if (!(vin >= 0) || !(r1 > 0) || !(r2 > 0)) {
+    out.textContent = '请输入 Vin、R1、R2 后自动计算';
+    extra.textContent = '';
+    return;
+  }
+  const Vin = vin * parseFloat($('div-vin-unit').value);
+  const R1 = r1 * parseFloat($('div-r1-unit').value);
+  const R2 = r2 * parseFloat($('div-r2-unit').value);
+  const ratio = R2 / (R1 + R2);
+  out.textContent = `Vout ≈ ${formatVolt(Vin * ratio)}`;
+  extra.textContent = `分压比 R2/(R1+R2) ≈ ${trimNum(ratio)}`;
+}
+
+['div-vin', 'div-r1', 'div-r2', 'div-vin-unit', 'div-r1-unit', 'div-r2-unit'].forEach((id) => {
+  $(id).addEventListener('input', updateDivider);
+});
+
+// ============================================
+// 6. 555 定时器
+// ============================================
+
+function getNe555Mode() {
+  return document.querySelector('input[name="ne555Mode"]:checked').value;
+}
+
+function updateNe555() {
+  const mode = getNe555Mode();
+  const out = $('ne555-result');
+  const extra = $('ne555-extra');
+
+  if (mode === 'mono') {
+    const r = parseFloat($('ne555-r').value);
+    const c = parseFloat($('ne555-c').value);
+    if (!(r > 0) || !(c > 0)) {
+      out.textContent = '请输入 R 和 C 后自动计算';
+      extra.textContent = '';
+      return;
+    }
+    const R = r * parseFloat($('ne555-r-unit').value);
+    const C = c * parseFloat($('ne555-c-unit').value);
+    out.textContent = `脉宽 t ≈ ${formatSeconds(1.1 * R * C)}`;
+    extra.textContent = 't = 1.1·R·C';
+  } else {
+    const r1 = parseFloat($('ne555-r1').value);
+    const r2 = parseFloat($('ne555-r2').value);
+    const c = parseFloat($('ne555-c2').value);
+    if (!(r1 > 0) || !(r2 > 0) || !(c > 0)) {
+      out.textContent = '请输入 R1、R2 和 C 后自动计算';
+      extra.textContent = '';
+      return;
+    }
+    const R1 = r1 * parseFloat($('ne555-r1-unit').value);
+    const R2 = r2 * parseFloat($('ne555-r2-unit').value);
+    const C = c * parseFloat($('ne555-c2-unit').value);
+    const f = 1.44 / ((R1 + 2 * R2) * C);
+    const T = 1 / f;
+    const t1 = 0.693 * (R1 + R2) * C;
+    const t2 = 0.693 * R2 * C;
+    const duty = (R1 + R2) / (R1 + 2 * R2);
+    const [fv, fu] = formatFrequency(f);
+    out.textContent = `f ≈ ${fv} ${fu}`;
+    extra.textContent = `周期 T=${formatSeconds(T)}，高电平 ${formatSeconds(t1)}，低电平 ${formatSeconds(t2)}，占空比 ${trimNum(duty * 100)}%`;
+  }
+}
+
+function syncNe555Mode() {
+  const mode = getNe555Mode();
+  $('ne555-mono').style.display = mode === 'mono' ? '' : 'none';
+  $('ne555-astable').style.display = mode === 'astable' ? '' : 'none';
+  updateNe555();
+}
+
+document.querySelectorAll('input[name="ne555Mode"]').forEach((radio) => {
+  radio.addEventListener('change', syncNe555Mode);
+});
+
+['ne555-r', 'ne555-c', 'ne555-r-unit', 'ne555-c-unit',
+ 'ne555-r1', 'ne555-r2', 'ne555-c2', 'ne555-r1-unit', 'ne555-r2-unit', 'ne555-c2-unit'].forEach((id) => {
+  $(id).addEventListener('input', updateNe555);
+});
+
+// ============================================
+// 7. 运放增益
+// ============================================
+
+function getOpampMode() {
+  return document.querySelector('input[name="opampMode"]:checked').value;
+}
+
+function updateOpamp() {
+  const r1 = parseFloat($('opamp-r1').value);
+  const r2 = parseFloat($('opamp-r2').value);
+  const out = $('opamp-result');
+  const extra = $('opamp-extra');
+  if (!(r1 > 0) || !(r2 > 0)) {
+    out.textContent = '请输入 R1、R2 后自动计算';
+    extra.textContent = '';
+    return;
+  }
+  const R1 = r1 * parseFloat($('opamp-r1-unit').value);
+  const R2 = r2 * parseFloat($('opamp-r2-unit').value);
+  const mode = getOpampMode();
+  const gain = mode === 'inv' ? -(R2 / R1) : 1 + R2 / R1;
+  const db = 20 * Math.log10(Math.abs(gain));
+  const sign = gain < 0 ? '−' : '';
+  out.textContent = `增益 G ≈ ${sign}${trimNum(Math.abs(gain))} V/V`;
+  extra.textContent = `${mode === 'inv' ? '反相' : '同相'}：20·lg|G| ≈ ${trimNum(db)} dB`;
+}
+
+document.querySelectorAll('input[name="opampMode"]').forEach((radio) => {
+  radio.addEventListener('change', updateOpamp);
+});
+
+['opamp-r1', 'opamp-r2', 'opamp-r1-unit', 'opamp-r2-unit'].forEach((id) => {
+  $(id).addEventListener('input', updateOpamp);
+});
+
 

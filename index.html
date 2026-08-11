@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>电子工程计算器工具集</title>
-  <link rel="stylesheet" href="style.css?v=1.1">
+  <link rel="stylesheet" href="style.css?v=1.2">
 </head>
 <body>
 
@@ -18,6 +18,9 @@
     <button class="tab-btn" data-tab="rc">RC 截止频率</button>
     <button class="tab-btn" data-tab="lc">LC 谐振频率</button>
     <button class="tab-btn" data-tab="ohm">欧姆定律 / 功率</button>
+    <button class="tab-btn" data-tab="divider">分压计算</button>
+    <button class="tab-btn" data-tab="ne555">555 定时器</button>
+    <button class="tab-btn" data-tab="opamp">运放增益</button>
   </nav>
 
   <main>
@@ -145,12 +148,157 @@
       </div>
     </section>
 
+    <!-- ===== 5. 分压计算器 ===== -->
+    <section id="tab-divider" class="panel">
+      <h2>分压计算器</h2>
+      <p class="hint">V<sub>out</sub> = V<sub>in</sub> × R2/(R1+R2)，输入 Vin、R1、R2 即可计算。</p>
+
+      <div class="form-row three">
+        <label class="field">
+          <span>输入电压 Vin</span>
+          <input type="number" id="div-vin" placeholder="例如 5" step="any" min="0">
+          <select id="div-vin-unit">
+            <option value="0.001">mV</option>
+            <option value="1" selected>V</option>
+            <option value="1000">kV</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>电阻 R1</span>
+          <input type="number" id="div-r1" placeholder="例如 1" step="any" min="0">
+          <select id="div-r1-unit">
+            <option value="1">Ω</option>
+            <option value="1000" selected>kΩ</option>
+            <option value="1000000">MΩ</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>电阻 R2</span>
+          <input type="number" id="div-r2" placeholder="例如 1" step="any" min="0">
+          <select id="div-r2-unit">
+            <option value="1">Ω</option>
+            <option value="1000" selected>kΩ</option>
+            <option value="1000000">MΩ</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="result-box">
+        <div class="result-main" id="div-result">请输入 Vin、R1、R2 后自动计算</div>
+        <div class="result-sub" id="div-extra"></div>
+      </div>
+    </section>
+
+    <!-- ===== 6. 555 定时器 ===== -->
+    <section id="tab-ne555" class="panel">
+      <h2>555 定时器</h2>
+      <p class="hint">输入阻容参数，计算单稳态脉宽或无稳态振荡频率。</p>
+
+      <div class="mode-switch">
+        <label><input type="radio" name="ne555Mode" value="mono" checked> 单稳态</label>
+        <label><input type="radio" name="ne555Mode" value="astable"> 无稳态</label>
+      </div>
+
+      <div class="form-row" id="ne555-mono">
+        <label class="field">
+          <span>电阻 R</span>
+          <input type="number" id="ne555-r" placeholder="例如 10" step="any" min="0">
+          <select id="ne555-r-unit">
+            <option value="1">Ω</option>
+            <option value="1000" selected>kΩ</option>
+            <option value="1000000">MΩ</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>电容 C</span>
+          <input type="number" id="ne555-c" placeholder="例如 100" step="any" min="0">
+          <select id="ne555-c-unit">
+            <option value="1e-12">pF</option>
+            <option value="1e-9" selected>nF</option>
+            <option value="1e-6">µF</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="form-row" id="ne555-astable" style="display:none;">
+        <label class="field">
+          <span>电阻 R1</span>
+          <input type="number" id="ne555-r1" placeholder="例如 1" step="any" min="0">
+          <select id="ne555-r1-unit">
+            <option value="1">Ω</option>
+            <option value="1000" selected>kΩ</option>
+            <option value="1000000">MΩ</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>电阻 R2</span>
+          <input type="number" id="ne555-r2" placeholder="例如 10" step="any" min="0">
+          <select id="ne555-r2-unit">
+            <option value="1">Ω</option>
+            <option value="1000" selected>kΩ</option>
+            <option value="1000000">MΩ</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>电容 C</span>
+          <input type="number" id="ne555-c2" placeholder="例如 100" step="any" min="0">
+          <select id="ne555-c2-unit">
+            <option value="1e-12">pF</option>
+            <option value="1e-9" selected>nF</option>
+            <option value="1e-6">µF</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="result-box">
+        <div class="result-main" id="ne555-result">请输入参数后自动计算</div>
+        <div class="result-sub" id="ne555-extra"></div>
+      </div>
+    </section>
+
+    <!-- ===== 7. 运放增益 ===== -->
+    <section id="tab-opamp" class="panel">
+      <h2>运放增益计算</h2>
+      <p class="hint">输入 R1、R2，计算反相/同相放大器的电压增益（倍数与分贝）。</p>
+
+      <div class="mode-switch">
+        <label><input type="radio" name="opampMode" value="inv" checked> 反相放大</label>
+        <label><input type="radio" name="opampMode" value="noninv"> 同相放大</label>
+      </div>
+
+      <div class="form-row">
+        <label class="field">
+          <span>电阻 R1（输入端）</span>
+          <input type="number" id="opamp-r1" placeholder="例如 10" step="any" min="0">
+          <select id="opamp-r1-unit">
+            <option value="1">Ω</option>
+            <option value="1000" selected>kΩ</option>
+            <option value="1000000">MΩ</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>电阻 R2（反馈）</span>
+          <input type="number" id="opamp-r2" placeholder="例如 100" step="any" min="0">
+          <select id="opamp-r2-unit">
+            <option value="1">Ω</option>
+            <option value="1000" selected>kΩ</option>
+            <option value="1000000">MΩ</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="result-box">
+        <div class="result-main" id="opamp-result">请输入 R1、R2 后自动计算</div>
+        <div class="result-sub" id="opamp-extra"></div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="site-footer">
     电子工程计算器工具集 · 用 HTML / CSS / JavaScript 编写 · GitHub 第一项目
   </footer>
 
-  <script src="script.js?v=1.1"></script>
+  <script src="script.js?v=1.2"></script>
 </body>
 </html>
