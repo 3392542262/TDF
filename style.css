@@ -1,0 +1,283 @@
+/* ============================================
+   电子工程计算器工具集 - 样式表
+   ============================================ */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+  background: #eef1f6;
+  color: #2c3e50;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- 顶部标题 ---------- */
+.site-header {
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  color: #fff;
+  text-align: center;
+  padding: 28px 16px 20px;
+}
+
+.site-header h1 {
+  font-size: 1.6rem;
+  letter-spacing: 1px;
+}
+
+.site-header p {
+  opacity: 0.85;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+/* ---------- 导航标签 ---------- */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 12px;
+  background: #fff;
+  border-bottom: 1px solid #e3e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.tab-btn {
+  border: 1px solid #d4dce8;
+  background: #f7f9fc;
+  color: #3b5b92;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tab-btn:hover {
+  border-color: #2563eb;
+  background: #eaf0fd;
+}
+
+.tab-btn.active {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #fff;
+}
+
+/* ---------- 面板 ---------- */
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+}
+
+.panel {
+  display: none;
+  background: #fff;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 2px 10px rgba(30, 58, 138, 0.08);
+}
+
+.panel.active {
+  display: block;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.panel h2 {
+  font-size: 1.25rem;
+  color: #1e3a8a;
+  margin-bottom: 4px;
+}
+
+.hint {
+  color: #6b7a90;
+  font-size: 0.88rem;
+  margin-bottom: 16px;
+}
+
+/* ---------- 表单 ---------- */
+.form-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1 1 200px;
+}
+
+.field span {
+  font-size: 0.85rem;
+  color: #4a5a72;
+  font-weight: 600;
+}
+
+.field input[type="number"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccd6e4;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.field input[type="number"]:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.field select {
+  padding: 8px 10px;
+  border: 1px solid #ccd6e4;
+  border-radius: 8px;
+  background: #f7f9fc;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+/* ---------- 结果框 ---------- */
+.result-box {
+  margin-top: 18px;
+  background: #f4f7fb;
+  border: 1px dashed #b9c7dc;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+
+.result-main {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e3a8a;
+}
+
+.result-sub {
+  font-size: 0.9rem;
+  color: #5c6f88;
+  margin-top: 6px;
+}
+
+/* ---------- 电阻色环 ---------- */
+.mode-switch {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 14px;
+  font-size: 0.92rem;
+}
+
+.mode-switch label {
+  cursor: pointer;
+  color: #3b5b92;
+}
+
+#rings {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ring-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.ring-name {
+  min-width: 52px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #4a5a72;
+}
+
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.swatch {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  outline: 1px solid #cfd8e4;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.swatch:hover {
+  transform: scale(1.12);
+}
+
+.swatch.selected {
+  outline: 3px solid #2563eb;
+  transform: scale(1.12);
+}
+
+/* ---------- 电阻预览 ---------- */
+.resistor-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.resistor-lead {
+  width: 46px;
+  height: 7px;
+  background: #c9c2b8;
+  border-radius: 2px;
+}
+
+.resistor-body {
+  display: flex;
+  height: 40px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #d8d0c4;
+  background: #e8e0d4;
+}
+
+.resistor-band {
+  width: 15px;
+  height: 100%;
+}
+
+/* ---------- 页脚 ---------- */
+.site-footer {
+  text-align: center;
+  color: #8a97ab;
+  font-size: 0.8rem;
+  padding: 18px 12px 26px;
+}
+
+/* ---------- 手机适配 ---------- */
+@media (max-width: 640px) {
+  .panel { padding: 18px; }
+  .tab-btn { padding: 7px 12px; font-size: 0.85rem; }
+  .form-row.three { flex-direction: column; gap: 12px; }
+  .swatch { width: 30px; height: 30px; }
+  .resistor-lead { width: 28px; }
+}
