@@ -15,7 +15,7 @@ document.querySelectorAll('.tab-btn').forEach((btn) => {
     document.querySelectorAll('.tab-btn').forEach((b) => b.classList.remove('active'));
     document.querySelectorAll('.panel').forEach((p) => p.classList.remove('active'));
     btn.classList.add('active');
-    $(btn.dataset.tab).classList.add('active');
+    $(`tab-${btn.dataset.tab}`).classList.add('active');
   });
 });
 
@@ -102,11 +102,11 @@ function renderRings() {
 
     def.colors.forEach((c, j) => {
       const sw = document.createElement('div');
-      sw.className = 'swatch' + (selectedBands[mode] === j ? ' selected' : '');
+      sw.className = 'swatch' + (selectedBands[mode][i] === j ? ' selected' : '');
       sw.style.background = c.hex;
       sw.title = c.name;
       sw.addEventListener('click', () => {
-        selectedBands[mode] = j;
+        selectedBands[mode][i] = j;
         renderRings();
         updateResistor();
       });
