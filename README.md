@@ -25,7 +25,7 @@
 
 ## 在线体验
 
-本项目通过 GitHub Pages 免费部署，在线体验地址：**https://3392542262.github.io/TDF/**
+本项目通过 GitHub Pages 免费部署，在线体验地址：**[点我打开 → https://3392542262.github.io/TDF/](https://3392542262.github.io/TDF/)**
 
 ## 本地开发
 
